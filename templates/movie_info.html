@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie info</title>
+</head>
+<body>
+    <h1 id="title"></h1>
+
+    <div id="error"></div>
+
+    <div id="content">
+        <div> <span id="genres"></span> </div>
+        <div> <span id="playtime"></span> </div>
+        <div> <span id="actors"></span> </div>
+    </div>
+
+</body>
+
+<script>
+    const result_ = {{ result | tojson }}
+    const status_code_ = {{ status_code }}
+    const category_ = {{ category }}
+
+    console.log(result_);
+    if (status_code_ !== 200) {
+        document.getElementById('title').innerHTML = "Error retrieving movie info.";
+        document.getElementById('error').innerHTML = result_['status_message'];
+        document.getElementById('error').style.visibility = "visible";
+        document.getElementById('content').style.visibility = "hidden";
+    } else {
+        document.getElementById('error').style.visibility = "hidden";
+        document.getElementById('content').style.visibility = "visible";
+        document.getElementById('title').innerHTML = result_['name']['response'];
+
+    }
+
+
+
+</script>
+
+</html>

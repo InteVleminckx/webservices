@@ -1,0 +1,30 @@
+table {
+    width: 700px;
+    border-collapse: collapse;
+}
+
+
+table tbody td {
+    height: 40px;
+    padding-left: 10px;
+    border: 1px solid #636363;
+
+}
+
+table tbody tr {
+    background-color: #ffffff;
+}
+
+#table_selector {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 450px;
+}
+
+.button {
+    width: 100px;
+}
+
+
