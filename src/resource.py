@@ -42,4 +42,4 @@ class SameGenres(Resource):
         if matching_movies is None:
             abort(404, message=f'A error occured when searching matching movies for {movie_name}')
 
-        return matching_movies
+        return matching_movies, 200
