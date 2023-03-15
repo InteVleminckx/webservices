@@ -3,6 +3,47 @@
     <title>Index</title>
 </head>
 <body>
-    <h1>Hello world</h1>
+
+<h1>Webservices</h1>
+
+<div class="task" style="margin-top: 50px">
+    <label for="no_pop_movies">Enter a number to view this number of popular films.</label>
+    <div class="inputfield">
+        <input id="no_pop_movies" min="0" name="no_pop_movies" type="number" value="0">
+        <button onclick="redirectToPopulate()">View movies</button>
+    </div>
+</div>
+
+
+
+<script>
+    function redirectToPopulate() {
+
+        window.location.href = "/popular/" + document.getElementById('no_pop_movies').value;
+    }
+
+</script>
+
 </body>
+
+<style>
+
+        body {
+            margin-top: 20px;
+        }
+
+        .task {
+            height: 50px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: 500px;
+            border: 1px #636363 solid;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            margin-left: 50px;
+        }
+</style>
+
 </html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Populate</title>
+</head>
+<body>
+
+<h1>Populate movies</h1>
+
+<div class="content">
+    <div id="populate_table"></div>
+    <div id="table_selector">
+        <button class="button" onclick="switch_table(-1)"> previous</button>
+        <div id="start_no"></div>
+        <span id="slash" style="visibility: hidden">/</span>
+        <div id="end_no"></div>
+        <button class="button" onclick="switch_table(1)"> next</button>
+    </div>
+</div>
+<button onclick="redirectToHome()">Return to homepage</button>
+
+</body>
+<script>
+
+    let page_no = 1;
+
+    const result_ = {{ result | tojson }};
+    const status_code_ = {{ status_code }};
+
+    console.log(result_);
+    if (status_code_ !== 200) {
+        document.getElementById('populate_table').innerHTML = result_['status_message'];
+        document.getElementById('start_no').innerHTML = "";
+        document.getElementById('slash').style.visibility = "hidden";
+        document.getElementById('end_no').innerHTML = "";
+
+    } else {
+        document.getElementById('start_no').innerHTML = page_no.toString();
+        document.getElementById('slash').style.visibility = "visible";
+        document.getElementById('end_no').innerHTML = result_['total_pages'];
+
+        create_table();
+
+    }
+
+    function switch_table(value) {
+
+        if ((page_no + value) > result_['total_pages'] || (page_no + value) < 1) {
+            return;
+        }
+        page_no += value;
+        document.getElementById('start_no').innerHTML = page_no.toString();
+        create_table();
+    }
+
+    function create_table() {
+        let html_ = "<table>" + "<tbody>"
+
+        for (const movie in result_['pages'][page_no]) {
+
+            const m = result_['pages'][page_no][movie]['title'];
+
+            html_ += "<tr>  <td>" + m + "</td> </tr>"
+        }
+        html_ += "</tbody> </table>"
+
+        document.getElementById('populate_table').innerHTML = html_;
+    }
+
+    function redirectToHome() {
+        window.location.href = "/";
+    }
+
+</script>
+
+<style>
+
+    .content {
+        width: 750px;
+        padding: 25px;
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #table_selector {
+        margin-top: 25px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 450px;
+    }
+
+    .button {
+        width: 100px;
+
+    }
+
+    table {
+        width: 700px;
+        border-collapse: collapse;
+    }
+
+
+    table tbody td {
+        height: 40px;
+        padding-left: 10px;
+        border: 1px solid #636363;
+
+    }
+
+    table tbody tr {
+        background-color: #ffffff;
+    }
+
+</style>
+
+</html>
