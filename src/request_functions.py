@@ -126,7 +126,7 @@ def get_matching_movies_genre(genres: list[int]):
 
     matching_movies_response = requests.get(url + '&page=1')
 
-    result = concatenate_pages(matching_movies_response.json(), url)
+    result = concatenate_pages(matching_movies_response.json(), url, amount=100)
 
     if result['found']:
         return result['response']

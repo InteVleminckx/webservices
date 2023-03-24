@@ -1,51 +1,59 @@
 <html>
 <head>
     <title>Index</title>
-    <link rel="stylesheet" href="../static/table.css">
-
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
 
-<h1>Webservices</h1>
+<!-- Title pagina-->
+<header>
+    <h1 id="title">Webservices</h1>
 
-<div class="task" style="margin-top: 50px">
-    <label for="no_pop_movies">Enter a number to view this number of popular films.</label>
-    <div class="inputfield">
-        <input id="no_pop_movies" min="0" name="no_pop_movies" type="number" value="0">
-        <button onclick="redirectToPopulate()">View movies</button>
-    </div>
+    <hr class="title-line">
+</header>
+
+<!-- Barchart knop die de eerste populaire films van de lijst neem-->
+<div id="barchart" >
+    <span>Stelt een chart op die de eerste 10 populaire films van deze lijst neemt</span>
+    <button onclick="render_barchart();"> Toon barchart</button>
+</div>
+
+<!-- Input balk voor het opvragen van x aantal populaire films-->
+<div id="input-popular" >
+    <span>Geef een waarde in om het aantal populaire films op te vragen: </span>
+    <input
+        type="number"
+        min="0"
+        value="0"
+        id="amountInput"
+    >
+    <button onclick="render_popular_table();"> Toon populaire films </button>
 </div>
 
 
 
-<script>
-    function redirectToPopulate() {
+<!-- Tonen van populaire films  -->
+<div id="popular-movies"></div>
 
-        window.location.href = "/popular/" + document.getElementById('no_pop_movies').value;
-    }
+<!-- Tonen van like en delete knop van de film -->
+<div id="interact-buttons"></div>
 
-</script>
+<!-- Tonen van overeenkomsten -->
+<div id="similar" style="display: flex">
+    <div id="same-genres"></div>
+    <div id="similar-runtime"></div>
+    <div id="overlapping-actors"></div>
+</div>
 
+
+<!-- Return knop voor het opvragen van populaire films -->
+<div id="return-button">
+    <button onclick="render_popular_table(); change_view()"> Ga terug </button>
+</div>
+
+
+
+<script src="../static/js/script.js"></script>
 </body>
-
-<style>
-
-        body {
-            margin-top: 20px;
-        }
-
-        .task {
-            height: 50px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            width: 500px;
-            border: 1px #636363 solid;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            margin-left: 50px;
-        }
-</style>
 
 </html>
