@@ -48,7 +48,7 @@ def get_popular_movies(amount=10):
     return concatenate_pages(content, url, amount)
 
 
-def concatenate_pages(content, url, amount=None):
+def concatenate_pages(content, url, amount=None, number_genres=None):
     # Verkrijgen van de het aantal pages en movies
     total_pages = content['total_pages']
     total_movies = content['total_results']
@@ -85,6 +85,10 @@ def concatenate_pages(content, url, amount=None):
 
             if db.movie_is_deleted(movie_id):
                 continue
+
+            if number_genres is not None:
+                if number_genres != len(movie['genre_ids']):
+                    continue
 
             if j == no_items or movie_count == amount:
                 break
@@ -132,7 +136,7 @@ def get_matching_movies_genre(genres: list[int]):
 
     matching_movies_response = requests.get(url + '&page=1')
 
-    result = concatenate_pages(matching_movies_response.json(), url, amount=20)
+    result = concatenate_pages(matching_movies_response.json(), url, amount=20, number_genres=len(genres))
 
     if result['found']:
         return result['response']
@@ -164,7 +168,7 @@ def get_similar_runtime_movies(runtime: int) -> list or None:
 
 def get_cast_movie(movie_id: int) -> list or None:
     response = requests.get(f'{BASE_URL}/movie/{movie_id}/credits?api_key={KEY}')
-    # print(response.content)
+
     if response.ok:
         return response.json()['cast']
 
@@ -174,7 +178,7 @@ def get_cast_movie(movie_id: int) -> list or None:
 def get_overlapping_actors(cast):
     # Extract the first two actors from the cast
     actors_id = [actor['id'] for actor in cast[:2]]
-    print(actors_id)
+
     url: str = f'{BASE_URL}/discover/movie?api_key={KEY}&with_cast={actors_id[0]},{actors_id[1]}'
 
     overlapping_actors_response = requests.get(url + '&page=1')
