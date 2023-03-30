@@ -100,13 +100,19 @@ def concatenate_pages(content, url, amount=None):
     return {"found": True, "response": result}
 
 
-def get_movie_id(movie_name: str) -> int or None:
-    response = requests.get(f'{BASE_URL}/search/movie?api_key={KEY}&query={movie_name}')
+def movie_exists(movie_id: int) -> bool:
+    response = requests.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={KEY}')
+
+    return response.status_code == 200
+
+
+def get_movie_name(movie_id: int) -> str or None:
+    response = requests.get(f'{BASE_URL}/movie/{movie_id}?api_key={KEY}&language=en-US')
 
     if response.ok:
-        results = response.json()['results']
-        if len(results) > 0:
-            return results[0]['id']
+        title = response.json()['original_title']
+
+        return title
 
     return None
 
@@ -126,7 +132,7 @@ def get_matching_movies_genre(genres: list[int]):
 
     matching_movies_response = requests.get(url + '&page=1')
 
-    result = concatenate_pages(matching_movies_response.json(), url, amount=100)
+    result = concatenate_pages(matching_movies_response.json(), url, amount=20)
 
     if result['found']:
         return result['response']
@@ -148,7 +154,7 @@ def get_similar_runtime_movies(runtime: int) -> list or None:
 
     similar_movies_response = requests.get(url + '&page=1')
 
-    result = concatenate_pages(similar_movies_response.json(), url, amount=100)
+    result = concatenate_pages(similar_movies_response.json(), url, amount=20)
 
     if result['found']:
         return result['response']
@@ -173,7 +179,7 @@ def get_overlapping_actors(cast):
 
     overlapping_actors_response = requests.get(url + '&page=1')
 
-    result = concatenate_pages(overlapping_actors_response.json(), url, amount=100)
+    result = concatenate_pages(overlapping_actors_response.json(), url, amount=20)
 
     if result['found']:
         return result['response']

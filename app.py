@@ -8,17 +8,15 @@ api = Api(app)
 DEBUG = True
 HOST = "127.0.0.1" if DEBUG else "0.0.0.0"
 
-api.add_resource(Movies, '/movies/<movie_name>')
+api.add_resource(Movies, '/movies/<int:movie_id>')
 api.add_resource(MoviesLists, '/', '/movies/')
-api.add_resource(Popular, '/movies/popular/<int:amount>')
-api.add_resource(PopularList, '/movies/popular')
-api.add_resource(SameGenres, '/movies/<movie_name>/same-genres')
-api.add_resource(SimilarRuntime, '/movies/<movie_name>/similar-runtime')
-api.add_resource(OverlappingActors, '/movies/<movie_name>/overlapping-actors')
-api.add_resource(CompareMovies, '/movies/compare/<movies>')
+api.add_resource(Popular, '/movies/popular')
+api.add_resource(SameGenres, '/movies/<int:movie_id>/same-genres')
+api.add_resource(SimilarRuntime, '/movies/<int:movie_id>/similar-runtime')
+api.add_resource(OverlappingActors, '/movies/<int:movie_id>/overlapping-actors')
+api.add_resource(CompareMovies, '/movies/compare')
 
 
-# Nog eens navragen
 @app.route('/website')
 def index():
     return render_template("index.html")
