@@ -43,7 +43,7 @@ function change_view() {
 
 function get_x_popular_movies(x) {
 
-    return fetch('/movies/popular/' + x.toString(), {
+    return fetch('/movies/popular?amount=' + x.toString(), {
         method: 'GET',
     })
         .then(response => {
@@ -58,8 +58,8 @@ function get_x_popular_movies(x) {
         .catch(error => console.error('Error:', error));
 }
 
-function get_movies_with_same_genre(movie) {
-    return fetch('/movies/' + movie + '/same-genres', {
+function get_movies_with_same_genre(movie_id) {
+    return fetch('/movies/' + movie_id + '/same-genres', {
         method: 'GET',
     })
         .then(response => {
@@ -74,8 +74,8 @@ function get_movies_with_same_genre(movie) {
         .catch(error => console.error('Error:', error));
 }
 
-function get_movies_with_similar_runtime(movie) {
-    return fetch('/movies/' + movie + '/similar-runtime', {
+function get_movies_with_similar_runtime(movie_id) {
+    return fetch('/movies/' + movie_id + '/similar-runtime', {
         method: 'GET',
     })
         .then(response => {
@@ -90,8 +90,8 @@ function get_movies_with_similar_runtime(movie) {
         .catch(error => console.error('Error:', error));
 }
 
-function get_movies_with_overlapping_actors(movie) {
-    return fetch('/movies/' + movie + '/overlapping-actors', {
+function get_movies_with_overlapping_actors(movie_id) {
+    return fetch('/movies/' + movie_id + '/overlapping-actors', {
         method: 'GET',
     })
         .then(response => {
@@ -108,7 +108,7 @@ function get_movies_with_overlapping_actors(movie) {
 
 
 function get_bar_plot_information(movies) {
-    return fetch('/movies/compare/' + movies, {
+    return fetch('/movies/compare?movies=' + movies, {
         method: 'GET',
     })
         .then(response => {
@@ -123,8 +123,8 @@ function get_bar_plot_information(movies) {
         .catch(error => console.error('Error:', error));
 }
 
-function delete_movie(movie) {
-    return fetch('/movies/' + movie, {
+function delete_movie(movie_id) {
+    return fetch('/movies/' + movie_id, {
         method: 'DELETE',
     })
         .then(response => {
@@ -146,8 +146,8 @@ function delete_movie(movie) {
         .catch(error => console.error('Error:', error));
 }
 
-function like_unlike_movie(movie) {
-    return fetch('/movies/' + movie, {
+function like_unlike_movie(movie_id) {
+    return fetch('/movies/' + movie_id, {
         method: 'PUT',
     })
         .then(response => {
@@ -155,8 +155,8 @@ function like_unlike_movie(movie) {
                 throw new Error('Network response was not ok');
             }
 
-            MOVIES[movie]['liked'] = !MOVIES[movie]['liked'];
-            refresh_interactive_buttons(movie);
+            MOVIES[movie_id]['liked'] = !MOVIES[movie_id]['liked'];
+            refresh_interactive_buttons(movie_id);
 
             return response.json();
         })
@@ -178,14 +178,16 @@ function render_popular_table() {
         for (const key of Object.keys(movies)) {
             const movie = movies[key];
             const title = movie['title'];
+            const id = movie['id'];
 
             if (CHART_MOVIES.length < 10) {
-                CHART_MOVIES.push(title);
+                CHART_MOVIES.push(id);
             }
 
-            MOVIES[title] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
+            MOVIES[id] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
 
-            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + title + "\"" + "); change_view()' style='cursor: pointer'>" + title + "</p> </td> </tr>";
+            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + id + "\"" + ", " + "\"" + title + "\"" + "); change_view()' style='cursor: pointer'>" + title + "</p> </td> </tr>";
+
         }
 
         table += "</tbody> </table>";
@@ -193,38 +195,38 @@ function render_popular_table() {
     });
 }
 
-function render_movie_information(movie) {
+function render_movie_information(movie_id, title) {
 
     // Verander title naar film naam
-    document.getElementById('title').innerHTML = movie;
+    document.getElementById('title').innerHTML = title;
     SAME_GENRES.innerHTML = "";
     OVERLAPPING_ACTORS.innerHTML = "";
     SIMILAR_RUNTIME.innerHTML = "";
 
 
-    render_same_genres_table(movie);
-    render_similar_runtime_table(movie);
-    render_overlapping_actors_table(movie);
+    render_same_genres_table(movie_id);
+    render_similar_runtime_table(movie_id);
+    render_overlapping_actors_table(movie_id);
 
-    refresh_interactive_buttons(movie);
+    refresh_interactive_buttons(movie_id);
 
 }
 
-function refresh_interactive_buttons(movie) {
+function refresh_interactive_buttons(movie_id) {
 
-    const rate = MOVIES[movie]['liked'] ? "UN-LIKE" : "LIKE";
+    const rate = MOVIES[movie_id]['liked'] ? "UN-LIKE" : "LIKE";
 
     INTERACT_BUTTONS.innerHTML =
-        "<button id=\"rate\" onclick='like_unlike_movie(" + "\"" + movie + "\"" + ")'>" + rate + "</button>" +
-        "<button id=\"delete\" onclick='delete_movie(" + "\"" + movie + "\"" + ")'>Delete movie</button>";
+        "<button id=\"rate\" onclick='like_unlike_movie(" + "\"" + movie_id + "\"" + ")'>" + rate + "</button>" +
+        "<button id=\"delete\" onclick='delete_movie(" + "\"" + movie_id + "\"" + ")'>Delete movie</button>";
 
 
 }
 
-function render_same_genres_table(movie) {
+function render_same_genres_table(movie_id) {
     SAME_GENRES.innerHTML = "";
 
-    get_movies_with_same_genre(movie).then(data => {
+    get_movies_with_same_genre(movie_id).then(data => {
         const movies = data['movies'];
 
         // Create table based on popular movies
@@ -233,10 +235,11 @@ function render_same_genres_table(movie) {
         for (const key of Object.keys(movies)) {
             const movie = movies[key];
             const title = movie['title'];
+            const id = movie['id'];
 
-            MOVIES[title] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
+            MOVIES[id] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
 
-            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + title + "\"" + ")' style='cursor: pointer'>" + title + "</p> </td> </tr>";
+            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + id + "\"" + ", " + "\"" + title + "\"" + ");' style='cursor: pointer'>" + title + "</p> </td> </tr>";
         }
 
         table += "</tbody> </table>";
@@ -256,10 +259,11 @@ function render_similar_runtime_table(movie) {
         for (const key of Object.keys(movies)) {
             const movie = movies[key];
             const title = movie['title'];
+            const id = movie['id'];
 
-            MOVIES[title] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
+            MOVIES[id] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
 
-            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + title + "\"" + ")' style='cursor: pointer'>" + title + "</p> </td> </tr>";
+            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + id + "\"" + ", " + "\"" + title + "\"" + ");' style='cursor: pointer'>" + title + "</p> </td> </tr>";
         }
 
         table += "</tbody> </table>";
@@ -279,10 +283,11 @@ function render_overlapping_actors_table(movie) {
         for (const key of Object.keys(movies)) {
             const movie = movies[key];
             const title = movie['title'];
+            const id = movie['id'];
 
-            MOVIES[title] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
+            MOVIES[id] = {'liked': (movie['liked'] === 'true' || movie['liked'] === true)}
 
-            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + title + "\"" + ")' style='cursor: pointer'>" + title + "</p> </td> </tr>";
+            table += "<tr> <td>" + (parseInt(key) + 1).toString() + "</td> <td> <p onclick='render_movie_information(" + "\"" + id + "\"" + ", " + "\"" + title + "\"" + ");' style='cursor: pointer'>" + title + "</p> </td> </tr>";
         }
 
         table += "</tbody> </table>";
@@ -292,18 +297,18 @@ function render_overlapping_actors_table(movie) {
 
 function render_barchart() {
 
-    let movies = "";
+    let ids = "";
 
-    for (let movie in CHART_MOVIES) {
-        movies += CHART_MOVIES[movie];
+    for (let id in CHART_MOVIES) {
+        ids += CHART_MOVIES[id];
 
-        if (CHART_MOVIES[movie] !== CHART_MOVIES[CHART_MOVIES.length - 1]) {
-            movies += ",";
+        if (CHART_MOVIES[id] !== CHART_MOVIES[CHART_MOVIES.length - 1]) {
+            ids += ",";
         }
     }
 
-    if (movies !== "") {
-        get_bar_plot_information(movies).then(data => {
+    if (ids !== "") {
+        get_bar_plot_information(ids).then(data => {
             const baseQuickChartUrl = 'https://quickchart.io/chart?c=';
             const chartData = encodeURIComponent(JSON.stringify(data));
             const quickChartUrl = baseQuickChartUrl + chartData;
