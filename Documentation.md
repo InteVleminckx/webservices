@@ -32,7 +32,7 @@ Each movie's information is represented with following key:
 ```
 ```json
 {
-    0:{
+    "0":{
 	"id": 10597,
 	"title": "Kevin & Perry Go Large",
 	"liked": false
