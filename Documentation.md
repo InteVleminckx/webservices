@@ -37,8 +37,10 @@ Each movie's information is represented with following key:
 	"title": "Kevin & Perry Go Large",
 	"liked": false
     },
-   	 
-    x:{
+
+    "...": {},
+
+    "x":{
 	"id": 76600,
 	"title": "Avatar: The Way of Water",
 	"liked": false
@@ -77,13 +79,15 @@ Each movie's information is represented with following key:
 ```
 ```json
 {
-    0:{
+    "0":{
 	"id": 76600,
 	"title": "Avatar: The Way of Water",
 	"liked": false
     },
-    
-    19:{
+
+    "...": {},
+
+    "19":{
 	"id": 12345,
 	"title": "Avatar",
 	"liked": false
@@ -123,14 +127,16 @@ Each movie's information is represented with following key:
 ```
 ```json
 {
-    0:{
+    "0":{
 	"id": 76600,
 	"title": "Avatar: The Way of Water",
 	"liked": false
     },
-    
-    19:{
-	"id": 67006 
+
+    "...": {},
+
+    "19":{
+	"id": 67006,
 	"title": "Star Wars: Episode IV: A New Hope,",
 	"liked": false
     }
