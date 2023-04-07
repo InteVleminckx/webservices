@@ -4,7 +4,7 @@
 if [ ! -d "venv" ]
 then
     # Create a virtual environment
-    python -m venv venv
+    python3 -m venv venv
 fi
 
 # Activate the virtual environment

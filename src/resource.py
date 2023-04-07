@@ -526,7 +526,7 @@ class CompareMovies(Resource):
 
         Example
         -------
-        >>> 'GET http://127.0.0.1:5000/chart?movies=x,y,z'
+        >>> 'GET http://127.0.0.1:5000/movies/compare?movies=x,y,z'
         {
             "type": "bar",
                 "data": {
