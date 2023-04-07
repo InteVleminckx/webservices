@@ -27,17 +27,18 @@ Each movie's information is represented with following key:
 - ***liked***: boolean - Whether the movie is liked by the user or not.
 
 ###### Example
-
-```json
+```py
 >>> GET http://127.0.0.1:5000/movies/popular?amount=x 
+```
+```json
 {
-    0: {
+    0:{
 	"id": 10597,
 	"title": "Kevin & Perry Go Large",
 	"liked": false
     },
-    ...
-    x: {
+   	 
+    x:{
 	"id": 76600,
 	"title": "Avatar: The Way of Water",
 	"liked": false
@@ -71,16 +72,18 @@ Each movie's information is represented with following key:
 
 ###### Example
 
-```json
+```py
 >>> GET http://127.0.0.1:5000/movies/10597/same-genres
+```
+```json
 {
-    0: {
+    0:{
 	"id": 76600,
 	"title": "Avatar: The Way of Water",
 	"liked": false
     },
-    ...
-    19: {
+    
+    19:{
 	"id": 12345,
 	"title": "Avatar",
 	"liked": false
@@ -115,16 +118,18 @@ Each movie's information is represented with following key:
 
 ###### Example
 
-```json
+```py
 >>> GET http://127.0.0.1:5000/movies/10597/same-genres
+```
+```json
 {
-    0: {
+    0:{
 	"id": 76600,
 	"title": "Avatar: The Way of Water",
 	"liked": false
     },
-    ...
-    19: {
+    
+    19:{
 	"id": 67006 
 	"title": "Star Wars: Episode IV: A New Hope,",
 	"liked": false
