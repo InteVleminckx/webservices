@@ -272,7 +272,7 @@ Each movie's information is represented with following key:
     "19":{
 	"id": 67005,
 	"title": "Star Wars: Episode III: Revenge of the Sith",
-	"liked": tue
+	"liked": true
     }
 }
 
