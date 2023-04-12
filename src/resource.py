@@ -43,6 +43,7 @@ class Movies(Resource):
         """
 
         if not movie_exists(movie_id):
+ 
             abort(404, message=f'The movie id: {movie_id} is not valid.')
 
         response = requests.get(f'{BASE_URL}/movie/{movie_id}?api_key={KEY}').json()
