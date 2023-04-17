@@ -19,7 +19,7 @@ The id of the movie.
 ##### <ins>200<ins>
 
 Returns information about the movie by its id.  
-The movie information is represented with following key:
+The movie information is represented with following keys:
 - ***id***: integer - The ID of the movie.
 - ***title***: string - The original title of the movie.
 - ***liked***: boolean - Whether the movie is liked by the user or not.
@@ -50,8 +50,8 @@ The id of the movie.
 
 ##### <ins>200<ins>
 
-Like's or unlike's a movie based on the current like status of the movie.  
-Returns a little message when its succeed.
+Likes or unlikes a movie based on the current like status of the movie.  
+Returns a little message when it succeeds.
 
 ###### Example
 ```py
@@ -107,7 +107,7 @@ Default value: 20
 ##### <ins>200<ins>
 
 Returns a dictionary containing the popular movies.  
-Each movie's information is represented with following key:
+Each movie's information is represented with following keys:
 - ***id***: integer - The ID of the movie.
 - ***title***: string - The original title of the movie.
 - ***liked***: boolean - Whether the movie is liked by the user or not.
@@ -152,8 +152,8 @@ The id of the movie.
 
 ##### <ins>200<ins>
 
-Returns a dictionary containing movies with the same genre as the provided movie.  
-Each movie's information is represented with following key:
+Returns a dictionary containing movies with the same genres as the provided movie.  
+Each movie's information is represented with following keys:
 - ***id***: integer - The ID of the movie.
 - ***title***: string - The original title of the movie.
 - ***liked***: boolean - Whether the movie is liked by the user or not.
@@ -201,7 +201,7 @@ The id of the movie.
 ##### <ins>200<ins>
 
 Returns a dictionary containing movies with the similar runtime as the provided movie.  
-Each movie's information is represented with following key:
+Each movie's information is represented with following keys:
 - ***id***: integer - The ID of the movie.
 - ***title***: string - The original title of the movie.
 - ***liked***: boolean - Whether the movie is liked by the user or not.
@@ -249,7 +249,7 @@ The id of the movie.
 ##### <ins>200<ins>
 
 Returns a dictionary containing movies with two overlapping actors as the provided movie.  
-Each movie's information is represented with following key:
+Each movie's information is represented with following keys:
 - ***id***: integer - The ID of the movie.
 - ***title***: string - The original title of the movie.
 - ***liked***: boolean - Whether the movie is liked by the user or not.
@@ -305,7 +305,7 @@ The dictionary contains the following keys:
 
 
 
-For plotting the chart in your browser you can past the retrieved dictionary behind the argument 'c' as follows:
+For plotting the chart in your browser you can paste the retrieved dictionary behind the argument 'c' as follows:
 ```
 https://quickchart.io/chart?c=<dictionary>
 ```
